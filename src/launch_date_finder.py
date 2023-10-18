@@ -73,14 +73,13 @@ def find_next_launch_date(start_date: datetime, raw_schedule: str):
     next_quarter_date = round_to_next_quarter(start_date)
 
     while next_quarter_date.year <= start_date.year + 3:  # checks the next 3 years
-        if (next_quarter_date.minute not in schedule['quarters'] or
-                next_quarter_date.hour not in schedule['hours'] or
-                get_american_weekday(next_quarter_date) not in schedule['weekdays'] or
-                next_quarter_date.day not in schedule['monthdays'] or
-                next_quarter_date.month not in schedule['months']):
-            next_quarter_date += timedelta(minutes=QUARTER)
-            continue
-        else:
+        if (next_quarter_date.minute in schedule['quarters'] and
+                next_quarter_date.hour in schedule['hours'] and
+                get_american_weekday(next_quarter_date) in schedule['weekdays'] and
+                next_quarter_date.day in schedule['monthdays'] and
+                next_quarter_date.month in schedule['months']):
             return next_quarter_date  # success
+        else:
+            next_quarter_date += timedelta(minutes=QUARTER)
 
     return None  # no suitable date found over 3 years
