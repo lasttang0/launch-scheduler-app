@@ -5,4 +5,5 @@ Git clone command:
 
 ```bash
 git clone https://github.com/lasttang0/launch-scheduler-app.git
+cd launch-scheduler-app
 ```
