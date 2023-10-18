@@ -21,7 +21,8 @@ def main():
     sample_date = config['data']['sample_date']
     sample_schedule = config['data']['sample_schedule']
 
-    print(find_next_launch_date(datetime.strptime(sample_date, '%d.%m.%Y %H:%M'), sample_schedule))
+    next_launch_date = find_next_launch_date(datetime.strptime(sample_date, '%d.%m.%Y %H:%M'), sample_schedule)
+    print(next_launch_date if next_launch_date else 'No suitable date found')
 
 
 if __name__ == '__main__':

@@ -30,7 +30,11 @@ def round_to_next_quarter(date: datetime) -> datetime:
         datetime: The rounded datetime object.
 
     """
-    return date if date.minute % QUARTER == 0 else date + timedelta(minutes=QUARTER - date.minute % QUARTER)
+    if date.minute % QUARTER == 0:
+        return date
+    minutes_to_next_quarter = QUARTER - date.minute % QUARTER
+    delta = timedelta(minutes=minutes_to_next_quarter)
+    return date + delta
 
 
 def get_american_weekday(date: datetime) -> int:
@@ -47,7 +51,7 @@ def get_american_weekday(date: datetime) -> int:
     return date.isoweekday() % 7 + 1
 
 
-def find_next_launch_date(start_date: datetime, raw_schedule: str) -> datetime:
+def find_next_launch_date(start_date: datetime, raw_schedule: str):
     """
     Find the next launch date based on the provided schedule and starting date.
 
@@ -77,4 +81,6 @@ def find_next_launch_date(start_date: datetime, raw_schedule: str) -> datetime:
             next_quarter_date += timedelta(minutes=QUARTER)
             continue
         else:
-            return next_quarter_date
+            return next_quarter_date  # success
+
+    return None  # no suitable date found over 3 years
