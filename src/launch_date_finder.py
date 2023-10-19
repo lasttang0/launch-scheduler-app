@@ -14,9 +14,15 @@ def parse_raw_schedule(raw_schedule: str) -> dict:
         dict: A dictionary with keys 'quarters', 'hours', 'weekdays', 'monthdays', and 'months'.
 
     """
-    schedule_parts = raw_schedule.strip().replace('\n', '')[:-1].split(';')
     keys = ['quarters', 'hours', 'weekdays', 'monthdays', 'months']
-    return {key: list(map(int, value.split(','))) for key, value in zip(keys, schedule_parts)}
+    schedule_parts = raw_schedule.strip().replace('\n', '')[:-1].split(';')
+
+    # We use a dict comprehension here to create the schedule dict.
+    # We get keys and values for dict from zip object that forms from keys list and schedule parts list (split by ';').
+    # Then we transform raw str value (such as '3,6,14,18,21,24,28') to int list, using both split(',') and map()
+    # functions to create int numbers from str numbers.
+    schedule = {key: list(map(int, value.split(','))) for key, value in zip(keys, schedule_parts)}
+    return schedule
 
 
 def round_to_next_quarter(date: datetime) -> datetime:
@@ -80,6 +86,6 @@ def find_next_launch_date(start_date: datetime, raw_schedule: str):
                 next_quarter_date.month in schedule['months']):
             return next_quarter_date  # success
         else:
-            next_quarter_date += timedelta(minutes=QUARTER)
+            next_quarter_date += timedelta(minutes=QUARTER)  # step = 15min
 
     return None  # no suitable date found over 3 years
