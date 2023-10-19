@@ -18,7 +18,7 @@ def parse_raw_schedule(raw_schedule: str) -> dict:
     schedule_parts = raw_schedule.strip().replace('\n', '')[:-1].split(';')
 
     # We use a dict comprehension here to create the schedule dict.
-    # We get keys and values for dict from zip object that forms from keys list and schedule parts list (split by ';').
+    # We get keys and values for dict from zip object that forms from keys list and schedule parts.
     # Then we transform raw str value (such as '3,6,14,18,21,24,28') to int list, using both split(',') and map()
     # functions to create int numbers from str numbers.
     schedule = {key: list(map(int, value.split(','))) for key, value in zip(keys, schedule_parts)}
