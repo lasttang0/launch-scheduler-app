@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 QUARTER = 15
+YEARS_TO_CHECK = 9999
 
 
 def parse_raw_schedule(raw_schedule: str) -> dict:
@@ -78,7 +79,7 @@ def find_next_launch_date(start_date: datetime, raw_schedule: str):
     schedule = parse_raw_schedule(raw_schedule)
     next_quarter_date = round_to_next_quarter(start_date)
 
-    while next_quarter_date.year <= start_date.year + 3:  # checks the next 3 years
+    while next_quarter_date.year <= start_date.year + YEARS_TO_CHECK:  # checks the next 9999 years
         if (next_quarter_date.minute in schedule['quarters'] and
                 next_quarter_date.hour in schedule['hours'] and
                 get_american_weekday(next_quarter_date) in schedule['weekdays'] and
@@ -88,4 +89,4 @@ def find_next_launch_date(start_date: datetime, raw_schedule: str):
         else:
             next_quarter_date += timedelta(minutes=QUARTER)  # step = 15min
 
-    return None  # no suitable date found over 3 years
+    return None  # no suitable date found over 9999 years
